@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>I come from template!!</title>
+        <style>
+            body {
+                background-color: white;
+            }
+            a {
+                color: LightSeaGreen;
+            }
+            .floatbox1{
+                width: 35%;
+                top:25px;
+                max-height: 360px;
+                display: inline-block;
+                text-align: center;
+            }
+            .floatbox2{
+                width: 30%;
+                max-width: 300px;
+                max-height: 360px;
+                color: white;
+                background-color: black;
+                display: inline-block;
+                
+                border-style: solid;
+                border-width: medium;
+                border-color: white;
+                
+            }
+            </style>
+        </head>
+    <body>
+        <div class = "wrapper" style="text-align:center; display:flex;">
+
+            <div class = "floatbox1" style="margin-left: auto; margin-right:-5px;">
+                <img src = 'http://imgur.com/NfNroso.png' style = "max-width:75%;max-height:75%;" />
+            </div>
+
+            <div class = "floatbox1" style="margin-left: -5px; margin-right:auto;">
+                <h1>NTUST ECE</h1>
+                <h2>Operation Enduring Network</h2>
+                <h2>#OEN</h2>
+                <h2>APP ENGINE: COLLIE</h2>
+                <h3>(sniff)(sniff)(sniff)</h3>
+            </div>
+        
+        </div>
+        <div class="wrapper" style="text-align:center; display:flex; padding-top:25px;">
+
+            <div class = "floatbox2" style="margin-left: auto; margin-right:-5px;">
+                <h1> Download </h1>
+                <h2>{{ download }} MB</h2>
+            </div>
+
+            <div class = "floatbox2">
+                <h1> Upload </h1>
+                <h2>{{ upload }} MB</h2>
+            </div>
+
+            <div class = "floatbox2" style="margin-left: -5px; margin-right:auto;">
+                <h1> Total </h1>
+                <h2> {{ total }} MB</h2>
+            </div>
+
+        </div>
+    </body>
+</html>
