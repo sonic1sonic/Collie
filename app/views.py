@@ -50,11 +50,15 @@ def about(request):
 def queryFlow(request):
     assert isinstance(request, HttpRequest)
     import urllib.request
+    import requests
     import time
     import datetime
     from django.http import HttpResponse
     from bs4 import BeautifulSoup
     from app.models import FlowQueryLog
+    from requests.auth import HTTPBasicAuth
+
+    FLOW_LIMIT = 4500
 
     try:
         headers = {
@@ -124,13 +128,73 @@ def queryFlow(request):
         download = -1
         upload = -1
         total = -1
+    if FlowQueryLog.objects.latest('time').note == 'cutoff':
+        newNote = 'cutoff'
+    else:
+        newNote = str(f.status)
     FlowQueryLog.objects.create(
         time = datetime.datetime.utcnow()+datetime.timedelta(hours=+8), 
         download = download,
         upload = upload,
         total = total,
-        note = str(f.status)
+        note = newNote
         )
+    #FlowQueryLog.objects.earliest('time').delete()
+    query = FlowQueryLog.objects.latest('time')
+    if (total > FLOW_LIMIT and newNote != 'cutoff') or (total < FLOW_LIMIT and newNote == 'cutoff'):
+        if total > FLOW_LIMIT:
+            query.note = 'cutoff'
+            query.save()
+            ssid = 'Network_is_GG'
+            policy = '2'
+        else:
+            query.note = '200'
+            query.save()
+            ssid = 'NTUST-ECE'
+            policy = '0'
+        payload = {
+        'tmenu':'wirelessconf',
+        'smenu':'basicsetup',
+        'act':'apply',
+        'wl_mode':'0',
+        'modechange':'0',
+        'channel_width':'40',
+        'auto_channel':'0',
+        'run':'1',
+        'wireless_mode':'0',
+        'ssid':ssid,    #SSID名稱
+        'bssid':'',
+        'mode':'6',
+        'country':'TW',
+        'channel':'11.9',
+        'broadcast_ssid':'1',
+        'wmm':'1',
+        'auth_type':'10',
+        'encrypt_type':'4',
+        'wpapsk_key':'0988620735',    #密碼
+        'key_input':'0',
+        'default_key':'1',
+        'key_length_desc':'',
+        'wep_key1':'',
+        'wep_key2':'',
+        'wep_key3':'',
+        'wep_key4':''
+        }
+        username = 'admin'
+        password = 'admin'
+        f = requests.get("http://140.118.21.25:8080/cgi-bin/timepro.cgi", 
+            params = payload, auth=HTTPBasicAuth(username, password))
+
+        payload = {
+            'tmenu':'wirelessconf',
+            'smenu':'macauth',
+            'act':'policy',
+            'wl_mode':'0',
+            'bssidx':'0',
+            'policy':policy    # 0=不限制 2=白名單 1=黑名單
+        }
+        f = requests.get("http://140.118.21.25:8080/cgi-bin/timepro.cgi", 
+                params = payload, auth=HTTPBasicAuth(username, password))
     return HttpResponse("download:" + str(download) + "<br>" + 
         "upload:" + str(upload) + "<br>" +
         "total:" + str(total) + "<br>" + 
