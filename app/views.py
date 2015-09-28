@@ -121,7 +121,7 @@ def about(request):
     )
 
 def collie(request):
-    """Renders the about page."""
+    """Renders the collie page."""
     assert isinstance(request, HttpRequest)
     return render(
         request,
@@ -131,5 +131,6 @@ def collie(request):
             'download':download,
             'upload':upload,
             'total':total,
+            'time':datetime.now()
         })
     )

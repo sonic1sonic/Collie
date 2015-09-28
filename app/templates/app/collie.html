@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>I come from template!!</title>
+        <title>NTUST-ECE/Collie</title>
         <style>
             body {
                 background-color: white;
             }
-            a {
+            em {
                 color: LightSeaGreen;
             }
             .floatbox1{
@@ -35,7 +35,8 @@
         <div class = "wrapper" style="text-align:center; display:flex;">
 
             <div class = "floatbox1" style="margin-left: auto; margin-right:-5px;">
-                <img src = 'http://imgur.com/NfNroso.png' style = "max-width:75%;max-height:75%;" />
+                {% load staticfiles %}
+                <img src = "{% static 'app/img/collie.png' %}" style = "max-width:75%;max-height:75%;" />
             </div>
 
             <div class = "floatbox1" style="margin-left: -5px; margin-right:auto;">
@@ -63,7 +64,7 @@
                 <h1> Total </h1>
                 <h2> {{ total }} MB</h2>
             </div>
-
         </div>
+        <em style="position:absolute; bottom: 3%;">{{ time }}</em>
     </body>
 </html>
