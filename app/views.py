@@ -78,12 +78,13 @@ def queryFlow(request):
             version = 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1312.57 Safari/537.17'
         myopener = MyOpener()
         url = 'http://network.ntust.edu.tw/flowstatistical.aspx'
-        mmonth = time.strftime("%m")
+        utc_8 = datetime.datetime.utcnow()+datetime.timedelta(hours=+8)
+        mmonth = utc_8.strftime("%m")
         if mmonth[0] == '0':
             month = mmonth[1]
         else:
             month = mmonth
-        dday = time.strftime("%d")
+        dday = utc_8.strftime("%d")
         if dday[0] == '0':
             day = dday[1]
         else:
@@ -133,7 +134,7 @@ def queryFlow(request):
     else:
         newNote = str(f.status)
     FlowQueryLog.objects.create(
-        time = datetime.datetime.utcnow()+datetime.timedelta(hours=+8), 
+        time = utc_8, 
         download = download,
         upload = upload,
         total = total,
@@ -198,7 +199,7 @@ def queryFlow(request):
     return HttpResponse("download:" + str(download) + "<br>" + 
         "upload:" + str(upload) + "<br>" +
         "total:" + str(total) + "<br>" + 
-        "time:" + time.strftime("%a, %d %b %Y %H:%M:%S"))
+        "time:" + utc_8.strftime("%a, %d %b %Y %H:%M:%S"))
 
 def collie(request):
     """Renders the collie page."""
