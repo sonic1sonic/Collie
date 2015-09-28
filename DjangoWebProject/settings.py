@@ -13,7 +13,7 @@ ALLOWED_HOSTS = (
 )
 
 ADMINS = (
-    # ('Your Name', 'your_email@example.com'),
+    ('sonic1sonic', 'sonic1sonic@gmail.com'),
 )
 
 MANAGERS = ADMINS
@@ -132,9 +132,9 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'app',
     # Uncomment the next line to enable the admin:
-    # 'django.contrib.admin',
+    'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
-    # 'django.contrib.admindocs',
+    'django.contrib.admindocs',
 )
 
 # A sample logging configuration. The only tangible logging
