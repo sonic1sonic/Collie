@@ -37,27 +37,6 @@ def contact(request):
 def about(request):
     """Renders the about page."""
     assert isinstance(request, HttpRequest)
-    '''
-    from django.contrib.auth import authenticate
-    from django.http import HttpResponse
-    import base64
-
-    if 'HTTP_AUTHORIZATION' in request.META:
-          auth = request.META['HTTP_AUTHORIZATION'].split()
-          if len(auth) == 2:
-                  if auth[0].lower() == "basic":
-                          username, password = base64.b64decode(auth[1]).decode().split(':', 1)
-                          user = authenticate(username=username, password=password)
-                          if user is not None and user.is_staff:
-                                  # handle your view here
-                                  return HttpResponse('my_template.html')
-
-    # otherwise ask for authentification
-    response = HttpResponse("")
-    response.status_code = 401
-    response['WWW-Authenticate'] = 'Basic realm="restricted area"'
-    return response
-    '''
     return render(
         request,
         'app/about.html',
@@ -77,11 +56,14 @@ def queryFlow(request):
     from django.http import HttpResponse
     from bs4 import BeautifulSoup
     from app.models import FlowQueryLog
+    from app.models import AccountAP
     from requests.auth import HTTPBasicAuth
     from django.contrib.auth import authenticate
     import base64
 
     FLOW_LIMIT = 4500
+    usernameAP = str(AccountAP.objects.latest('time').username)
+    passwordAP = str(AccountAP.objects.latest('time').password)
 
     if 'HTTP_AUTHORIZATION' in request.META:
       auth = request.META['HTTP_AUTHORIZATION'].split()
@@ -209,11 +191,8 @@ def queryFlow(request):
                                     'wep_key3':'',
                                     'wep_key4':''
                                     }
-                                    username = 'admin'
-                                    password = 'admin'
                                     f = requests.get("http://140.118.21.25:8080/cgi-bin/timepro.cgi", 
-                                        params = payload, auth=HTTPBasicAuth(username, password))
-
+                                        params = payload, auth=HTTPBasicAuth(usernameAP, passwordAP))
                                     payload = {
                                         'tmenu':'wirelessconf',
                                         'smenu':'macauth',
@@ -245,6 +224,7 @@ def collie(request):
     download = query.download
     upload = query.upload
     total = query.total
+    note = query.note
     if total < 3500:
         healthy = 'Healthy'
         dangerous = ''
@@ -253,7 +233,7 @@ def collie(request):
         healthy = ''
         dangerous = 'DANGEROUS'
         cutoff = ''
-    if total > 4500:
+    if note == 'cutoff':
         healthy = ''
         dangerous = ''
         cutoff = 'CUT-OFF'

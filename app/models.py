@@ -11,3 +11,8 @@ class FlowQueryLog(models.Model):
 	upload = models.BigIntegerField()
 	total = models.BigIntegerField()
 	note = models.CharField(max_length=100)
+
+class AccountAP(models.Model):
+	time = models.DateTimeField()
+	username = models.CharField(max_length=100)
+	password = models.CharField(max_length=100)
