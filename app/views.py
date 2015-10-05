@@ -150,7 +150,7 @@ def queryFlow(request):
                                     total = total,
                                     note = newNote
                                     )
-                                #FlowQueryLog.objects.earliest('time').delete()
+                                FlowQueryLog.objects.earliest('time').delete()
                                 query = FlowQueryLog.objects.latest('time')
                                 if (total > FLOW_LIMIT and newNote != 'cutoff') or (total < FLOW_LIMIT and newNote == 'cutoff'):
                                     if total > FLOW_LIMIT:

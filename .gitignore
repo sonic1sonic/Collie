@@ -35,3 +35,6 @@ $RECYCLE.BIN/
 
 # Mac desktop service store files
 .DS_Store
+
+# Local database
+db.sqlite3

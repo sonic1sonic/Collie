@@ -3,8 +3,16 @@
 {% block content %}
 
 <h2>{{ title }}.</h2>
-<h3>{{ message }}</h3>
+<h3>Flow Monitoring</h3>
 
-<p>Use this area to provide additional information.</p>
+<p>Collie queries the data from <a href="http://network.ntust.edu.tw/flowstatistical.aspx">Computer Center of NTUST</a> every 5 minutes while the latest query time should be displyed on the <a href="http://ntust-ece.azurewebsites.net/collie/">status page</a>. If the flow number(including download, upload, and total) are -1(MB), it indicates that something went wrong when fetching the flow data. Please contact author via the <a href="ntust-ece.azurewebsites.net/contact/">contact page</a> when the previous situation occurs.</p>
 
+<h3>Cut-Off</h3>
+
+<p>Collie will cut-off the wifi if the network flow reaches 4500(MB) in one day. For those connect to the access point through wireless network, they will lost their connection in a few seconds without any warning. Once the wifi has been cut-off, the SSID, "ntust-ece" originally, will be renamed "Network_is_GG". There is no need to reset the wireless network manually because Collie will revive all the settings on the next day.</p>
+
+<h3>NTUST Policy</h3>
+
+<p>The following link is the current version of Regulations for NTUST Academic Network.</p>
+<p><a href="http://www.cc.ntust.edu.tw/ezfiles/5/1005/img/1384/lan_quota_20150626.pdf">臺灣科技大學校園網路流量管理辦法</a></p>
 {% endblock %}
